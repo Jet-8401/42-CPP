@@ -1,5 +1,4 @@
-#include "main.hpp"
-#include <string>
+#include "Contact.hpp"
 
 std::string trunc_property(std::string value)
 {
