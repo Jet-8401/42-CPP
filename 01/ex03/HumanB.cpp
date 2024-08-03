@@ -3,10 +3,7 @@
 #include <iostream>
 #include <string>
 
-HumanB::HumanB(std::string name)
-{
-	this->name = name;
-}
+HumanB::HumanB(std::string name): name(name) {};
 
 void	HumanB::attack(void)
 {

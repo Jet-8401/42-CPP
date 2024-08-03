@@ -1,7 +1,6 @@
 #include "HumanA.hpp"
 #include "HumanB.hpp"
 #include "Weapon.hpp"
-#include <iostream>
 
 int main(void)
 {
@@ -12,7 +11,7 @@ int main(void)
 		bob.attack();
 		club.setType("some other type of club");
 		bob.attack();
-		}
+	}
 	{
 		Weapon club = Weapon("crude spiked club");
 
