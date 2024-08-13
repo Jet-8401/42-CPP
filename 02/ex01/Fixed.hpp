@@ -5,7 +5,7 @@
 
 class Fixed {
 	private:
-		int				mantissa;
+		int				_value;
 		static short	_bits;
 
 	public:
