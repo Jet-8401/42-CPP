@@ -5,8 +5,8 @@
 
 class Fixed {
 	private:
-		int				_value;
-		static short	_bits;
+		int				_rawbits;
+		static short	_fractbits;
 
 	public:
 		Fixed(void);
@@ -23,6 +23,6 @@ class Fixed {
 		int			toInt(void) const;
 };
 
-std::ostream &	operator<<(std::ostream out, Fixed const & rhs);
+std::ostream &	operator<<(std::ostream & out, Fixed const & rhs);
 
 #endif
