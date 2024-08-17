@@ -5,10 +5,10 @@
 
 class Point {
 	private:
-
-	public:
 		const Fixed	_x;
 		const Fixed	_y;
+
+	public:
 		Point(void);
 		Point(const float, const float);
 		Point(const Point & origin);
