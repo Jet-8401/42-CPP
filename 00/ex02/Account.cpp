@@ -11,13 +11,24 @@ int	Account::_totalNbWithdrawals = 0;
 // Constructor / Desctructor
 // __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __
 
-Account::Account(int initial_deposit):
+Account::Account(void):
+	_accountIndex(Account::_nbAccounts++),
+	_amount(0),
 	_nbDeposits(0),
 	_nbWithdrawals(0)
 {
-	this->_amount = initial_deposit;
-	this->_accountIndex = Account::_nbAccounts++;
+	Account::_displayTimestamp();
+	std::cout << "index:" << this->_accountIndex << ";amount:" <<
+		this->_amount << ";created" << std::endl;
+	return ;
+}
 
+Account::Account(int initial_deposit):
+	_accountIndex(Account::_nbAccounts++),
+	_amount(initial_deposit),
+	_nbDeposits(0),
+	_nbWithdrawals(0)
+{
 	Account::_totalAmount += initial_deposit;
 	Account::_displayTimestamp();
 
@@ -95,6 +106,11 @@ void	Account::makeDeposit(int deposit)
 	return ;
 }
 
+int	Account::checkAmount(void) const
+{
+	return (this->_amount);
+}
+
 void	Account::displayStatus(void) const
 {
 	Account::_displayTimestamp();
@@ -106,12 +122,36 @@ void	Account::displayStatus(void) const
 	return ;
 }
 
+// Static Function member
+// __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __
+
+int	Account::getNbAccounts(void)
+{
+	return (Account::_nbAccounts);
+}
+
+int	Account::getTotalAmount(void)
+{
+	return (Account::_totalAmount);
+}
+
+int	Account::getNbDeposits(void)
+{
+	return (Account::_totalNbDeposits);
+}
+
+int	Account::getNbWithdrawals(void)
+{
+	return (Account::_totalNbWithdrawals);
+}
+
 void	Account::_displayTimestamp(void)
 {
-	struct timeval	tv;
-	gettimeofday(&tv, NULL);
+	std::time_t	now = std::time(NULL);
+	std::tm		*local_time = std::localtime(&now);
+	char		timestamp[32];
 
-	std::cout << '[' << tv.tv_sec << tv.tv_usec / 1000 << "] ";
-
+	strftime(timestamp, sizeof(timestamp), "%Y%m%d_%H%M%S", local_time);
+	std::cout << '[' << timestamp << "] ";
 	return ;
 }
