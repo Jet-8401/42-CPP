@@ -6,17 +6,23 @@
 class Contact {
 
 	public:
-		std::string	first_name;
-		std::string	last_name;
-		std::string	nickname;
-		std::string	phone_number;
-		void		set_secret(void);
-		char		*get_secret(void);
-		void		preview(int);
-		void		print(void);
+		Contact(void);
+
+		bool			create(void);
+		void			set_secret(void);
+		std::string&	get_secret(void);
+		void			preview(int);
+		void			print(void);
 
 	private:
-		char		darket_secret[SECRET_LEN];
+		bool			_is_already_set;
+		std::string		_first_name;
+		std::string		_last_name;
+		std::string		_nickname;
+		std::string		_phone_number;
+		std::string		_darkest_secret;
+
+		void			clear(void);
 
 };
 

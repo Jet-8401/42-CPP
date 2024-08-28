@@ -5,15 +5,19 @@
 # include "Contact.hpp"
 
 class PhoneBook {
+
 	public:
-		PhoneBook	(void);
-		int			current_contacts;
-		void		add(void);
-		void		search(void);
-		void		exit_cmd(void);
-		void		display_contacts(void);
+		PhoneBook(void);
+
+		void			add(void);
+		void			search(void);
+		void			exit_cmd(void);
+		void			display_contacts(void);
+
 	private:
-		Contact 	contacts[CONTACTS_N];
+		unsigned int	_contacts_set;
+		unsigned int	_oldest_contact;
+		Contact 		_contacts[CONTACTS_N];
 };
 
 #endif

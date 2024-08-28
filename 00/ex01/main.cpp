@@ -11,11 +11,10 @@ int	main(void)
 
 	std::cout << "Welcome to your phonebook !\nThe command available are: "
 		<< keys[0] << ',' << keys[1] << ',' << keys[2] << ":\n";
-	while (1) {
+
+	while (!std::cin.eof()) {
 		std::cout << "\x1B[34mphonebook> \x1B[0m";
 		std::cin >> entry;
-		if (std::cin.eof())
-			break ;
 		i = 0;
 		while (i < KEYS && keys[i] != entry)
 			i++;
