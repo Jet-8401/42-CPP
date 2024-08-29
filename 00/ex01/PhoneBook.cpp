@@ -1,7 +1,6 @@
 #include "PhoneBook.hpp"
 #include "main.hpp"
 
-
 PhoneBook::PhoneBook(void):
 	_contacts_set(0),
 	_oldest_contact(0)
@@ -9,11 +8,12 @@ PhoneBook::PhoneBook(void):
 
 void	PhoneBook::add(void)
 {
+	std::cout << "Adding a contact [" << this->_oldest_contact << "]:\n";
+
+	if (!this->_contacts[this->_oldest_contact].create())
+		return ;
 	if (this->_contacts_set < CONTACTS_N)
 		this->_contacts_set++;
-
-	std::cout << "Adding a contact [" << this->_oldest_contact << "]:\n";
-	this->_contacts[this->_oldest_contact].create();
 	this->_oldest_contact = (this->_oldest_contact + 1) % CONTACTS_N;
 }
 
