@@ -1,23 +1,31 @@
+#include "Fixed.hpp"
 #include "Point.hpp"
 
-float sign(Point p1, Point p2, Point p3)
+Fixed	abs(Fixed value)
 {
-    return ((p1._x - p3._x) * (p2._y - p3._y) -
-    	(p2._x - p3._x) * (p1._y - p3._y));
+	if (value < 0)
+		return (value * -1);
+	return (value);
 }
 
-bool	Point::bsp(const Point a, const Point b, const Point c,
-	const Point point)
+Fixed	calculate_area(Point a, Point b, Point c)
 {
-	float d1, d2, d3;
-    bool negative, positive;
+	return (
+		(a.get_x() * (b.get_y()-c.get_y()) +
+		b.get_x() * (c.get_y()-a.get_y()) +
+		c.get_x() * (a.get_y()-b.get_y()))
+		/ 2
+	);
+}
 
-    d1 = sign(point, a, b);
-    d2 = sign(point, b, c);
-    d3 = sign(point, c, a);
+bool bsp(const Point a, const Point b, const Point c, const Point point)
+{
+	Fixed	A, A1, A2, A3;
 
-    negative = (d1 < 0) || (d2 < 0) || (d3 < 0);
-    positive = (d1 > 0) || (d2 > 0) || (d3 > 0);
+	A = abs(calculate_area(a, b, c));
+	A1 = abs(calculate_area(point, a, b));
+	A2 = abs(calculate_area(point, b, c));
+	A3 = abs(calculate_area(point, c, b));
 
-    return (!(negative && positive));
+	return (A == A1 + A2 + A3);
 }

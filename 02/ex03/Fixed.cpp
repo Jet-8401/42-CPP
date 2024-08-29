@@ -9,14 +9,14 @@
 	}
 
 #define PREFIX_OPERATOR(op) \
-	float	Fixed::operator op(void) { \
-		return (op this->_rawbits, this->toFloat()); \
+	Fixed	Fixed::operator op(void) { \
+		return (op this->_rawbits, *this); \
 	}
 
 #define POSTFIX_OPERATOR(op) \
-	float Fixed::operator op(int) { \
+	Fixed	Fixed::operator op(int) { \
 		Fixed	copy = *this; \
-		return (op this->_rawbits, copy.toFloat()); \
+		return (op this->_rawbits, copy); \
 	}
 
 short	Fixed::_fractbits = 8;
@@ -55,26 +55,28 @@ Fixed &	Fixed::operator=(const Fixed & rhs)
 	return (*this);
 }
 
-float Fixed::operator+(const Fixed & rhs) const
+Fixed	Fixed::operator+(const Fixed & rhs) const
 {
-	return ((float)(this->_rawbits + rhs._rawbits) / SCALE);
+	return (this->_rawbits + rhs._rawbits);
 }
 
-float Fixed::operator-(const Fixed & rhs) const
+Fixed	Fixed::operator-(const Fixed & rhs) const
 {
-	return ((float)(this->_rawbits - rhs._rawbits) / SCALE);
+	return (this->_rawbits - rhs._rawbits);
 }
 
-float Fixed::operator*(const Fixed & rhs) const
+Fixed	Fixed::operator*(const Fixed & rhs) const
 {
-	return ((float)(((long long)this->_rawbits * (long long)rhs._rawbits)
-		>> Fixed::_fractbits) / SCALE);
+	return ((int)(
+		((long long) this->_rawbits * (long long) rhs._rawbits)
+		>> (Fixed::_fractbits * 2)
+	));
 }
 
-float Fixed::operator/(const Fixed & rhs) const
+// To Fix !!
+Fixed	Fixed::operator/(const Fixed & rhs) const
 {
-	return (((float)(this->_rawbits << Fixed::_fractbits) / rhs._rawbits)
-		/ SCALE);
+	return ((this->_rawbits / rhs.getRawBits() >>));
 }
 
 DEFINE_OPERATOR(>);

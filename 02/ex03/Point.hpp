@@ -11,13 +11,15 @@ class Point {
 	public:
 		Point(void);
 		Point(const float, const float);
-		Point(const Point & origin);
+		Point(const Point & rhs);
 		~Point(void);
 
 		Point &	operator=(const Point & rhs);
 
-		static bool bsp(const Point a, const Point b, const Point c,
-			const Point point);
+		const Fixed&	get_x(void) const;
+		const Fixed&	get_y(void) const;
 };
+
+bool bsp(const Point a, const Point b, const Point c, const Point point);
 
 #endif

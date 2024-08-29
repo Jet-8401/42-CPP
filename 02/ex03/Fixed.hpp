@@ -16,20 +16,20 @@ class Fixed {
 		~Fixed(void);
 
 		Fixed &			operator=(const Fixed & rhs);
-		float			operator+(const Fixed & rhs) const;
-		float			operator-(const Fixed & rhs) const;
-		float			operator*(const Fixed & rhs) const;
-		float			operator/(const Fixed & rhs) const;
+		Fixed			operator+(const Fixed & rhs) const;
+		Fixed			operator-(const Fixed & rhs) const;
+		Fixed			operator*(const Fixed & rhs) const;
+		Fixed			operator/(const Fixed & rhs) const;
 		bool			operator>(const Fixed & rhs) const;
 		bool			operator<(const Fixed & rhs) const;
 		bool			operator>=(const Fixed & rhs) const;
 		bool			operator<=(const Fixed & rhs) const;
 		bool			operator==(const Fixed & rhs) const;
 		bool			operator!=(const Fixed & rhs) const;
-		float			operator++(void);
-		float			operator++(int);
-		float			operator--(void);
-		float			operator--(int);
+		Fixed			operator++(void);
+		Fixed			operator++(int);
+		Fixed			operator--(void);
+		Fixed			operator--(int);
 
 		int				getRawBits(void) const;
 		void			setRawBits(int const raw);

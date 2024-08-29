@@ -3,13 +3,17 @@
 
 int	main(void)
 {
-	Point A(1, 1);
+	Point A(0, 0);
 	Point B(5, 5);
-	Point C(0, 0);
+	Point C(5, 0);
 
-	Point p(10, 10);
+	Point p(-6,-6);
 
-	bool result = Point::bsp(A, B, C, p);
+	Fixed b(5);
+	Fixed a(2);
+	std::cout << (a / b).toFloat() << std::endl;
+
+	bool result = bsp(A, B, C, p);
 
 	std::cout << result << std::endl;
 	return (0);
