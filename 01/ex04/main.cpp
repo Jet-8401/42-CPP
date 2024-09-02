@@ -4,8 +4,8 @@
 #include <iostream>
 
 #define ERR_USAGE "Usage: ./sedBis <filename> <s1> <s2>"
-#define ERR_ARGS_LENGTH "An argument have a size of 0"
 #define ERR_OPEN "Cannot open "
+#define ERR_S1_EMPTY "Cannot set s1 to an empty string!"
 
 void	search_and_put(std::string &line, std::ofstream &output,
 	char *s1, char *s2)
@@ -41,8 +41,8 @@ int	main(int argc, char *argv[])
 
 	if (argc != 4)
 		return (ft_err(ERR_USAGE), 0);
-	if (!*argv[1] || !*argv[2] || !*argv[3])
-		return (ft_err(ERR_ARGS_LENGTH), 0);
+	if (!*argv[2])
+		return (ft_err(ERR_S1_EMPTY), 0);
 	input.open(argv[1]);
 	if (input.fail())
 		return (ft_err(std::string(ERR_OPEN) + argv[1]), 0);

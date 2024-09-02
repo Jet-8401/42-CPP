@@ -6,6 +6,7 @@ int	main(void)
 	Zombie	*NotBob = bob->newZombie("Baby from bob");
 
 	bob->announce();
+	bob->randomChump("I am a random guy");
 	NotBob->announce();
 	delete bob;
 	delete NotBob;
