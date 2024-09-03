@@ -8,6 +8,10 @@
 
 FragTrap::FragTrap(void): ClapTrap()
 {
+	this->_hit_pts = 100;
+	this->_energy_pts = 100;
+	this->_attack_dmg = 30;
+
 	this->_announce();
 	std::cout << "Default constructor called" << std::endl;
 	return ;
@@ -58,13 +62,17 @@ FragTrap&	FragTrap::operator=(const FragTrap& rhs)
 
 void	FragTrap::_announce(void)
 {
-	std::cout << "\x1B[34m[ FragTrap ] \x1b[0m";
+	std::cout << "\x1B[34m[ FragTrap ] \x1b[0m\x1b[3m("
+		+ this->_name + ") \x1b[23m";
 	return ;
 }
 
 void	FragTrap::highFivesGuys(void)
 {
 	this->_announce();
+	if (!this->_do_action(0, "to ask for a highfive..."))
+		return ;
+
 	std::cout << "High five guys ?! (*everyone accepts*)\n- YEAH !"
 		<< std::endl;
 	return ;

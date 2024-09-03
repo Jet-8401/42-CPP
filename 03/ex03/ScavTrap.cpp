@@ -1,30 +1,33 @@
 #include <iostream>
-#include <string>
-#include "FragTrap.hpp"
+#include "ScavTrap.hpp"
 #include "ClapTrap.hpp"
 
 // Constructor / Desctructor
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-FragTrap::FragTrap(void): ClapTrap()
+ScavTrap::ScavTrap(void): ClapTrap(), _keeper_mode(0)
 {
+	this->_hit_pts = 100;
+	this->_energy_pts = 50;
+	this->_attack_dmg = 20;
+
 	this->_announce();
 	std::cout << "Default constructor called" << std::endl;
 	return ;
 }
 
-FragTrap::FragTrap(const std::string& name): ClapTrap(name)
+ScavTrap::ScavTrap(const std::string& name): ClapTrap(name), _keeper_mode(0)
 {
 	this->_hit_pts = 100;
-	this->_energy_pts = 100;
-	this->_attack_dmg = 30;
+	this->_energy_pts = 50;
+	this->_attack_dmg = 20;
 
 	this->_announce();
 	std::cout << "String constructor called" << std::endl;
 	return ;
 }
 
-FragTrap::FragTrap(const FragTrap& rhs): ClapTrap(rhs)
+ScavTrap::ScavTrap(const ScavTrap& rhs): ClapTrap(rhs)
 {
 	*this = rhs;
 
@@ -33,7 +36,7 @@ FragTrap::FragTrap(const FragTrap& rhs): ClapTrap(rhs)
 	return ;
 }
 
-FragTrap::~FragTrap(void)
+ScavTrap::~ScavTrap(void)
 {
 	this->_announce();
 	std::cout << "Default destructor called" << std::endl;
@@ -43,12 +46,13 @@ FragTrap::~FragTrap(void)
 // Operator overload
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-FragTrap&	FragTrap::operator=(const FragTrap& rhs)
+ScavTrap&	ScavTrap::operator=(const ScavTrap& rhs)
 {
 	this->_name = rhs._name;
 	this->_hit_pts = rhs._hit_pts;
 	this->_attack_dmg = rhs._attack_dmg;
 	this->_energy_pts = rhs._energy_pts;
+	this->_keeper_mode = rhs._keeper_mode;
 
 	return (*this);
 }
@@ -56,16 +60,33 @@ FragTrap&	FragTrap::operator=(const FragTrap& rhs)
 // Member function
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-void	FragTrap::_announce(void)
+void	ScavTrap::_announce(void)
 {
-	std::cout << "\x1B[34m[ FragTrap ] \x1b[0m";
+	std::cout << "\x1B[35m[ ScavTrap ] \x1b[0m\x1b[3m("
+		+ this->_name + ") \x1b[23m";
 	return ;
 }
 
-void	FragTrap::highFivesGuys(void)
+void	ScavTrap::attack(const std::string& target)
 {
 	this->_announce();
-	std::cout << "High five guys ?! (*everyone accepts*)\n- YEAH !"
-		<< std::endl;
+
+	this->ClapTrap::attack(target);
+	return ;
+}
+
+void	ScavTrap::guardGate(void)
+{
+	this->_announce();
+
+	if (this->_keeper_mode)
+	{
+		std::cout << this->_name << " is already in \"Gate keeper mode\""
+			<< std::endl;
+		return ;
+	}
+	this->_keeper_mode = 1;
+
+	std::cout << this->_name << " is now in \"Gate keeper mode\"!" << std::endl;
 	return ;
 }
