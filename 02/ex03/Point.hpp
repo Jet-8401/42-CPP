@@ -20,6 +20,6 @@ class Point {
 		const Fixed&	get_y(void) const;
 };
 
-bool bsp(const Point a, const Point b, const Point c, const Point point);
+bool bsp(const Point& a, const Point& b, const Point& c, const Point& point);
 
 #endif

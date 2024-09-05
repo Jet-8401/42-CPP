@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Fixed.hpp"
 #include "Point.hpp"
 
 int	main(void)
@@ -7,14 +8,22 @@ int	main(void)
 	Point B(5, 5);
 	Point C(5, 0);
 
-	Point p(-6,-6);
+	Point p(1, 1);
 
-	Fixed b(5);
-	Fixed a(2);
-	std::cout << (a / b).toFloat() << std::endl;
+	int result = bsp(A, B, C, p);
+	std::cout << A.get_x() << "*(" << B.get_y() << '-' << C.get_y() << ")" << std::endl;
+	std::cout << A.get_x() * (B.get_y()-C.get_y()) << std::endl;
 
-	bool result = bsp(A, B, C, p);
+	std::cout << "result: " << result << std::endl;
 
-	std::cout << result << std::endl;
+	/*
+	std::cout << Fixed(5).toFloat() << std::endl;
+	std::cout << Fixed(3) * Fixed(5.5f) << std::endl;
+	std::cout << (Fixed(4) + Fixed(4) * Fixed(2)) / Fixed(2) << std::endl;
+	std::cout << Fixed(50) / Fixed(3) << std::endl;
+	std::cout << --Fixed(0) + ++Fixed(0) << std::endl;
+	std::cout << ++Fixed(0)++ << std::endl;
+	std::cout << Fixed(6548.5555555555556f) / Fixed(100000) << std::endl;
+	*/
 	return (0);
 }

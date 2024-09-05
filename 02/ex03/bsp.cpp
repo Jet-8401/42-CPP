@@ -8,7 +8,7 @@ Fixed	abs(Fixed value)
 	return (value);
 }
 
-Fixed	calculate_area(Point a, Point b, Point c)
+Fixed	calculate_area(const Point& a, const Point& b, const Point& c)
 {
 	return (
 		(a.get_x() * (b.get_y()-c.get_y()) +
@@ -18,7 +18,7 @@ Fixed	calculate_area(Point a, Point b, Point c)
 	);
 }
 
-bool bsp(const Point a, const Point b, const Point c, const Point point)
+bool bsp(const Point& a, const Point& b, const Point& c, const Point& point)
 {
 	Fixed	A, A1, A2, A3;
 

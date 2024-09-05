@@ -1,44 +1,23 @@
-#include <iostream>
+#include <ostream>
 #include "Fixed.hpp"
 
 #define SCALE (1 << Fixed::_fractbits)
-
-#define DEFINE_OPERATOR(op) \
-	bool Fixed::operator op(const Fixed & rhs) const { \
-		return (this->_rawbits op rhs._rawbits); \
-	}
-
-#define PREFIX_OPERATOR(op) \
-	float	Fixed::operator op(void) { \
-		return (op this->_rawbits, this->toFloat()); \
-	}
-
-#define POSTFIX_OPERATOR(op) \
-	float Fixed::operator op(int) { \
-		Fixed	copy = *this; \
-		return (op this->_rawbits, copy.toFloat()); \
-	}
 
 short	Fixed::_fractbits = 8;
 
 // Constructors
 // __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __
 
-Fixed::Fixed(void): _rawbits(0)
-{
-	std::cout << "Default constructor called" << std::endl;
-}
+Fixed::Fixed(void): _rawbits(0) {}
 
 Fixed::Fixed(const Fixed & origin)
 {
-	std::cout << "Copy constructor called" << std::endl;
 	*this = origin;
 }
 
 // Save the value by SCALE it up by bitshifting.
 Fixed::Fixed(const int n)
 {
-	std::cout << "Int constructor called" << std::endl;
 	this->_rawbits = n << Fixed::_fractbits;
 }
 
@@ -46,57 +25,106 @@ Fixed::Fixed(const int n)
 // the fractional part into the integer.
 Fixed::Fixed(const float f)
 {
-	std::cout << "Float constructor called" << std::endl;
 	this->_rawbits = f * (float)(SCALE) + (f >= 0 ? 0.5 : -0.5);
 }
 
-Fixed::~Fixed(void)
-{
-	std::cout << "Destructor called" << std::endl;
-}
+Fixed::~Fixed(void) {}
 
 // Operator overloads
 // __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __
 
 Fixed &	Fixed::operator=(const Fixed & rhs)
 {
-	std::cout << "Copy assignment operator called" << std::endl;
 	this->_rawbits = rhs._rawbits;
 	return (*this);
 }
 
-float Fixed::operator+(const Fixed & rhs) const
+Fixed	Fixed::operator+(const Fixed & rhs) const
 {
-	return ((float)(this->_rawbits + rhs._rawbits) / SCALE);
+	Fixed	copy;
+
+	copy.setRawBits(this->_rawbits + rhs._rawbits);
+	return (copy);
 }
 
-float Fixed::operator-(const Fixed & rhs) const
+Fixed	Fixed::operator-(const Fixed & rhs) const
 {
-	return ((float)(this->_rawbits - rhs._rawbits) / SCALE);
+	Fixed	copy;
+
+	copy.setRawBits(this->_rawbits - rhs._rawbits);
+	return (copy);
 }
 
-float Fixed::operator*(const Fixed & rhs) const
+Fixed	Fixed::operator*(const Fixed & rhs) const
 {
-	return ((float)(((long long)this->_rawbits * (long long)rhs._rawbits)
-		>> Fixed::_fractbits) / SCALE);
+	Fixed	copy;
+
+	copy.setRawBits((int)
+		((((long long) this->_rawbits * (long long) rhs._rawbits))
+		>> Fixed::_fractbits));
+	return (copy);
 }
 
-float Fixed::operator/(const Fixed & rhs) const
+Fixed	Fixed::operator/(const Fixed & rhs) const
 {
-	return (((float)(this->_rawbits << Fixed::_fractbits) / rhs._rawbits)
-		/ SCALE);
+	Fixed	copy;
+
+	copy.setRawBits((int)
+		((long long) this->_rawbits << Fixed::_fractbits) / rhs._rawbits);
+	return (copy);
 }
 
-DEFINE_OPERATOR(>);
-DEFINE_OPERATOR(<);
-DEFINE_OPERATOR(>=);
-DEFINE_OPERATOR(<=);
-DEFINE_OPERATOR(==);
-DEFINE_OPERATOR(!=);
-PREFIX_OPERATOR(--);
-PREFIX_OPERATOR(++);
-POSTFIX_OPERATOR(++);
-POSTFIX_OPERATOR(--);
+bool	Fixed::operator>(const Fixed& rhs) const
+{
+	return (this->_rawbits > rhs._rawbits);
+}
+
+bool	Fixed::operator>=(const Fixed& rhs) const
+{
+	return (this->_rawbits >= rhs._rawbits);
+}
+
+bool	Fixed::operator<(const Fixed& rhs) const
+{
+	return (this->_rawbits < rhs._rawbits);
+}
+
+bool	Fixed::operator<=(const Fixed& rhs) const
+{
+	return (this->_rawbits <= rhs._rawbits);
+}
+
+bool	Fixed::operator==(const Fixed& rhs) const
+{
+	return (this->_rawbits == rhs._rawbits);
+}
+
+bool	Fixed::operator!=(const Fixed& rhs) const
+{
+	return (this->_rawbits != rhs._rawbits);
+}
+
+Fixed&	Fixed::operator++(void)
+{
+	return (++this->_rawbits, *this);
+}
+
+Fixed&	Fixed::operator--(void)
+{
+	return (--this->_rawbits, *this);
+}
+
+Fixed	Fixed::operator++(int)
+{
+	Fixed	copy = *this;
+	return (++this->_rawbits, copy);
+}
+
+Fixed	Fixed::operator--(int)
+{
+	Fixed	copy = *this;
+	return (--this->_rawbits, copy);
+}
 
 std::ostream &	operator<<(std::ostream & out, Fixed const & rhs)
 {
@@ -109,13 +137,11 @@ std::ostream &	operator<<(std::ostream & out, Fixed const & rhs)
 
 int	Fixed::getRawBits(void) const
 {
-	std::cout << "getRawBits member function called" << std::endl;
 	return (this->_rawbits);
 }
 
 void	Fixed::setRawBits(int const raw)
 {
-	std::cout << "setRawBits member function called" << std::endl;
 	this->_rawbits = raw;
 }
 
