@@ -1,4 +1,3 @@
-#include <ostream>
 #include "Fixed.hpp"
 
 #define SCALE (1 << Fixed::_fractbits)
@@ -33,13 +32,13 @@ Fixed::~Fixed(void) {}
 // Operator overloads
 // __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __
 
-Fixed &	Fixed::operator=(const Fixed & rhs)
+Fixed &	Fixed::operator=(const Fixed& rhs)
 {
 	this->_rawbits = rhs._rawbits;
 	return (*this);
 }
 
-Fixed	Fixed::operator+(const Fixed & rhs) const
+Fixed	Fixed::operator+(const Fixed& rhs) const
 {
 	Fixed	copy;
 
@@ -47,7 +46,7 @@ Fixed	Fixed::operator+(const Fixed & rhs) const
 	return (copy);
 }
 
-Fixed	Fixed::operator-(const Fixed & rhs) const
+Fixed	Fixed::operator-(const Fixed& rhs) const
 {
 	Fixed	copy;
 
@@ -55,22 +54,22 @@ Fixed	Fixed::operator-(const Fixed & rhs) const
 	return (copy);
 }
 
-Fixed	Fixed::operator*(const Fixed & rhs) const
+Fixed	Fixed::operator*(const Fixed& rhs) const
 {
 	Fixed	copy;
 
 	copy.setRawBits((int)
-		((((long long) this->_rawbits * (long long) rhs._rawbits))
-		>> Fixed::_fractbits));
+		((((long long) this->_rawbits) * ((long long) rhs._rawbits))
+		>> (Fixed::_fractbits)));
 	return (copy);
 }
 
-Fixed	Fixed::operator/(const Fixed & rhs) const
+Fixed	Fixed::operator/(const Fixed& rhs) const
 {
 	Fixed	copy;
 
-	copy.setRawBits((int)
-		((long long) this->_rawbits << Fixed::_fractbits) / rhs._rawbits);
+	copy.setRawBits(((long long) this->_rawbits << Fixed::_fractbits)
+		/ rhs._rawbits);
 	return (copy);
 }
 
@@ -79,14 +78,14 @@ bool	Fixed::operator>(const Fixed& rhs) const
 	return (this->_rawbits > rhs._rawbits);
 }
 
-bool	Fixed::operator>=(const Fixed& rhs) const
-{
-	return (this->_rawbits >= rhs._rawbits);
-}
-
 bool	Fixed::operator<(const Fixed& rhs) const
 {
 	return (this->_rawbits < rhs._rawbits);
+}
+
+bool	Fixed::operator>=(const Fixed& rhs) const
+{
+	return (this->_rawbits >= rhs._rawbits);
 }
 
 bool	Fixed::operator<=(const Fixed& rhs) const

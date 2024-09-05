@@ -3,8 +3,8 @@
 
 class Fixed {
 	private:
-		int				mantissa;
-		static short	_bits;
+		int				_rawbits;
+		static short	_fractbits;
 
 	public:
 		Fixed(void);

@@ -9,16 +9,12 @@ Point::~Point(void) {}
 
 Point::Point(const float x, const float y): _x(x), _y(y) {}
 
-Point::Point(const Point & origin)
-{
-	*this = origin;
-	return ;
-}
+Point::Point(const Point& rhs): _x(rhs._x), _y(rhs._y) {}
 
 // Operator overload
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-Point &	Point::operator=(const Point & rhs)
+Point&	Point::operator=(const Point& rhs)
 {
 	(void) rhs;
 	return (*this);

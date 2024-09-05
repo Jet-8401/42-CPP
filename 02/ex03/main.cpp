@@ -8,22 +8,17 @@ int	main(void)
 	Point B(5, 5);
 	Point C(5, 0);
 
-	Point p(1, 1);
+	Point P(2, 2);
 
-	int result = bsp(A, B, C, p);
-	std::cout << A.get_x() << "*(" << B.get_y() << '-' << C.get_y() << ")" << std::endl;
-	std::cout << A.get_x() * (B.get_y()-C.get_y()) << std::endl;
+	bool result = bsp(A, B, C, P);
 
-	std::cout << "result: " << result << std::endl;
+	std::cout << "A(x,y) : " << A.get_x() << ',' << A.get_y() << std::endl;
+	std::cout << "B(x,y) : " << B.get_x() << ',' << B.get_y() << std::endl;
+	std::cout << "C(x,y) : " << C.get_x() << ',' << C.get_y() << std::endl;
 
-	/*
-	std::cout << Fixed(5).toFloat() << std::endl;
-	std::cout << Fixed(3) * Fixed(5.5f) << std::endl;
-	std::cout << (Fixed(4) + Fixed(4) * Fixed(2)) / Fixed(2) << std::endl;
-	std::cout << Fixed(50) / Fixed(3) << std::endl;
-	std::cout << --Fixed(0) + ++Fixed(0) << std::endl;
-	std::cout << ++Fixed(0)++ << std::endl;
-	std::cout << Fixed(6548.5555555555556f) / Fixed(100000) << std::endl;
-	*/
+	std::cout << "P(x,y) : " << P.get_x() << ',' << P.get_y() << std::endl;
+
+	std::cout << "P is " << (result ? "" : "not ") << "inside the triangle ABC"
+		<< std::endl;
 	return (0);
 }
