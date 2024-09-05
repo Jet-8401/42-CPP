@@ -16,7 +16,7 @@ Fixed::Fixed(const Fixed & origin)
 	*this = origin;
 }
 
-// Save the value by scaling it up by bitshifting.
+// Save the value and clear the fractional part by bitshift it to the left.
 Fixed::Fixed(const int n)
 {
 	std::cout << "Int constructor called" << std::endl;
