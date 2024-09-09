@@ -22,6 +22,8 @@ int	main(void)
 	John.takeDamage(4);
 	John.attack("a grandma");
 	John.takeDamage(100);
+	John.takeDamage(100);
+	John.beRepaired(-1);
 
 	return (0);
 }

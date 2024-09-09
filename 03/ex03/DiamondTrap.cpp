@@ -11,6 +11,11 @@
 DiamondTrap::DiamondTrap(void): ClapTrap()
 {
 	this->_announce();
+
+	this->_hit_pts = 100;
+	this->_energy_pts = 50;
+	this->_attack_dmg = 30;
+
 	std::cout << "Default constructor called" << std::endl;
 	return ;
 }
@@ -19,9 +24,13 @@ DiamondTrap::DiamondTrap(const std::string& name):
 	ClapTrap(name + "_clap_name"),
 	_name(name)
 {
-	this->_hit_pts = this->FragTrap::_hit_pts;
+	/*this->_hit_pts = this->FragTrap::_hit_pts;
 	this->_energy_pts = this->ScavTrap::_energy_pts;
-	this->_attack_dmg = this->FragTrap::_attack_dmg;
+	this->_attack_dmg = this->FragTrap::_attack_dmg;*/
+
+	this->_hit_pts = 100;
+	this->_energy_pts = 50;
+	this->_attack_dmg = 30;
 
 	this->_announce();
 	std::cout << "Name constructor called" << std::endl;
@@ -56,6 +65,7 @@ DiamondTrap&	DiamondTrap::operator=(const DiamondTrap& rhs)
 	this->_hit_pts = rhs._hit_pts;
 	this->_energy_pts = rhs._energy_pts;
 	this->_attack_dmg = rhs._attack_dmg;
+	this->_keeper_mode = rhs._keeper_mode;
 
 	this->_announce();
 	std::cout << "Assignment overload called" << std::endl;

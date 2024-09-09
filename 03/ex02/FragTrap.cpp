@@ -65,6 +65,13 @@ void	FragTrap::_announce(void)
 void	FragTrap::highFivesGuys(void)
 {
 	this->_announce();
+
+	if (this->_hit_pts == 0)
+	{
+		std::cout << this->_name << " can't ask for a high five, he's dead !"
+			<< std::endl;
+		return ;
+	}
 	std::cout << "High five guys ?! (*everyone accepts*)\n- YEAH !"
 		<< std::endl;
 	return ;

@@ -25,7 +25,7 @@ int	main(void)
 	John.beRepaired(20);
 	John.takeDamage(4);
 	John.attack("a grandma");
-	John.takeDamage(100);
+	John.takeDamage(10000);
 	John.guardGate();
 	John.guardGate();
 

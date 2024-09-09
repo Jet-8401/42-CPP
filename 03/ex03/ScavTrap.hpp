@@ -18,10 +18,11 @@ class ScavTrap : virtual public ClapTrap {
 		void	attack(const std::string& target);
 		void	guardGate(void);
 
+	protected:
+		bool	_keeper_mode;
+
 	private:
 		void	_announce(void);
-
-		bool	_keeper_mode;
 };
 
 #endif

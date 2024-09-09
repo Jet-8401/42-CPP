@@ -39,6 +39,8 @@ int	main(void)
 
 	Someone.attack("an other person");
 	Someone.highFivesGuys();
+	Someone.takeDamage(-1);
+	Someone.highFivesGuys();
 
 	return (0);
 }

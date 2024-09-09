@@ -10,6 +10,7 @@ int	main(void)
 	John.takeDamage(10000);
 	John.highFivesGuys();
 	John.beRepaired(10);
+	John.guardGate();
 
 	return (0);
 }
