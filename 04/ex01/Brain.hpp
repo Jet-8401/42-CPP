@@ -4,6 +4,7 @@
 # define BRAIN_HPP
 
 # include <string>
+# define IDEAS_N 100
 
 class Brain {
 	public:
@@ -13,7 +14,7 @@ class Brain {
 
 		Brain&	operator=(const Brain& rhs);
 
-		std::string	ides[100];
+		std::string	ideas[IDEAS_N];
 };
 
 #endif

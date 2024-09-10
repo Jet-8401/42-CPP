@@ -1,13 +1,15 @@
 #include <iostream>
 #include "Cat.hpp"
+#include "Animal.hpp"
 
 // Constructor / Destructor
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 Cat::Cat(void): Animal()
 {
-	this->_type = "Cat";
 	std::cout << "Cat default constructor called" << std::endl;
+	this->_type = "Cat";
+	this->_brain = new Brain();
 	return ;
 }
 
@@ -22,6 +24,7 @@ Cat::Cat(const Cat& rhs): Animal(rhs)
 Cat::~Cat(void)
 {
 	std::cout << "Cat default destructor" << std::endl;
+	delete this->_brain;
 	return ;
 }
 

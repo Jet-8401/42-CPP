@@ -7,8 +7,9 @@
 
 Dog::Dog(void): Animal()
 {
-	this->_type = "Dog";
 	std::cout << "Dog default constructor called" << std::endl;
+	this->_type = "Dog";
+	this->_brain = new Brain();
 	return ;
 }
 
@@ -23,6 +24,7 @@ Dog::Dog(const Dog& rhs): Animal(rhs)
 Dog::~Dog(void)
 {
 	std::cout << "Dog default destructor" << std::endl;
+	delete this->_brain;
 	return ;
 }
 
