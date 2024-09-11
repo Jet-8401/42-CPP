@@ -13,6 +13,9 @@ class AMateria {
 		AMateria(void);
 		AMateria(const AMateria& rhs);
 
+		// unused for now
+		AMateria&	operator=(const AMateria& rhs);
+
 		static const std::string	_type;
 
 	public:
@@ -21,9 +24,8 @@ class AMateria {
 
 		const std::string& getType(void) const;
 		virtual AMateria* clone(void) const = 0;
-		virtual void use(ICharacter& target);
+		virtual void use(ICharacter& target) const;
 
-		AMateria&	operator=(const AMateria& rhs);
 };
 
 #endif

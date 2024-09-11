@@ -5,7 +5,7 @@
 // Constructors / Destructors
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-AMateria::AMateria(void): AMateria("ice")
+AMateria::AMateria(void)
 {
 	return ;
 }
@@ -25,7 +25,7 @@ AMateria::~AMateria(void)
 
 AMateria&	AMateria::operator=(const AMateria& rhs)
 {
-	this->_type = rhs.getType();
+	(void) rhs;
 	return (*this);
 }
 
@@ -35,9 +35,4 @@ AMateria&	AMateria::operator=(const AMateria& rhs)
 const std::string&	AMateria::getType(void) const
 {
 	return (this->_type);
-}
-
-void	AMateria::use(ICharacter& target)
-{
-	return ;
 }

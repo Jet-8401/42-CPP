@@ -4,13 +4,16 @@
 # include <string>
 # include "ICharacter.hpp"
 
+# define INVENTORY_SLOTS 4
+
 class Character : public ICharacter {
 	protected:
 		Character(void);
 
+		AMateria*	_findEmptySlot(void);
+
 		std::string	_name;
-		// implement vectors
-		AMateria*	inventory[4];
+		AMateria*	_inv[INVENTORY_SLOTS];
 
 	public:
 		Character(const Character& rhs);
@@ -19,10 +22,11 @@ class Character : public ICharacter {
 
 		Character&	operator=(const Character& rhs);
 
-		const std::string&	getName() const = 0;
-		void				equip(AMateria* m) = 0;
-		void				unequip(int idx) = 0;
-		void				use(int idx, ICharacter& target) = 0;
+		const AMateria*		getInvSlot(int idx) const;
+		const std::string&	getName(void) const;
+		void				equip(AMateria* m);
+		void				unequip(int idx);
+		void				use(int idx, ICharacter& target) const;
 };
 
 #endif

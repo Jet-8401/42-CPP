@@ -32,17 +32,13 @@ MateriaSource&	MateriaSource::operator=(const MateriaSource& rhs)
 
 void	MateriaSource::learnMateria(AMateria *materia)
 {
-	AMateria	*empty;
-
 	for(int i = 0; i < MATERIAS_N; i++)
 	{
-		if (!this->materias[i])
-		{
-			empty = this->materias[i];
-			break ;
-		}
+		if (this->materias[i])
+			continue;
+		this->materias[i] = materia->clone();
+		break ;
 	}
-	empty = materia;
 	return ;
 }
 
