@@ -4,13 +4,13 @@
 // Constructor / Destructor
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-Animal::Animal(void): _type("Animal")
+A_Animal::A_Animal(void): _type("Animal")
 {
 	std::cout << "Animal default constructor called" << std::endl;
 	return ;
 }
 
-Animal::Animal(const Animal& rhs)
+A_Animal::A_Animal(const A_Animal& rhs)
 {
 	*this = rhs;
 
@@ -18,7 +18,7 @@ Animal::Animal(const Animal& rhs)
 	return ;
 }
 
-Animal::~Animal(void)
+A_Animal::~A_Animal(void)
 {
 	std::cout << "Animal default destructor" << std::endl;
 	return ;
@@ -27,7 +27,7 @@ Animal::~Animal(void)
 // Operator overload
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-Animal&	Animal::operator=(const Animal& rhs)
+A_Animal&	A_Animal::operator=(const A_Animal& rhs)
 {
 	this->_type = rhs._type;
 
@@ -38,13 +38,7 @@ Animal&	Animal::operator=(const Animal& rhs)
 // Function member
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-void	Animal::makeSound(void) const
-{
-	std::cout << "*Animal sound.mp3*" << std::endl;
-	return ;
-}
-
-const std::string&	Animal::getType(void) const
+const std::string&	A_Animal::getType(void) const
 {
 	return (this->_type);
 }

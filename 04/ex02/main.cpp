@@ -5,7 +5,7 @@
 int main(void)
 {
 	unsigned int	array_size = 50;
-	Animal*			animals[array_size];
+	A_Animal*		animals[array_size];
 
 	for(unsigned int i = 0; i < array_size; i++)
 	{

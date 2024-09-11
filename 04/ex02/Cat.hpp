@@ -6,7 +6,7 @@
 # include "Brain.hpp"
 # include "Animal.hpp"
 
-class Cat : public Animal {
+class Cat : public A_Animal {
 	public:
 		Cat(void);
 		Cat(const Cat& rhs);

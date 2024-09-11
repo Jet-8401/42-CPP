@@ -5,7 +5,7 @@
 // Constructor / Destructor
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-Dog::Dog(void): Animal()
+Dog::Dog(void): A_Animal()
 {
 	std::cout << "Dog default constructor called" << std::endl;
 	this->_type = "Dog";
@@ -13,7 +13,7 @@ Dog::Dog(void): Animal()
 	return ;
 }
 
-Dog::Dog(const Dog& rhs): Animal(rhs)
+Dog::Dog(const Dog& rhs): A_Animal(rhs)
 {
 	*this = rhs;
 

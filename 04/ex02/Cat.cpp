@@ -5,7 +5,7 @@
 // Constructor / Destructor
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-Cat::Cat(void): Animal()
+Cat::Cat(void): A_Animal()
 {
 	std::cout << "Cat default constructor called" << std::endl;
 	this->_type = "Cat";
@@ -13,7 +13,7 @@ Cat::Cat(void): Animal()
 	return ;
 }
 
-Cat::Cat(const Cat& rhs): Animal(rhs)
+Cat::Cat(const Cat& rhs): A_Animal(rhs)
 {
 	*this = rhs;
 

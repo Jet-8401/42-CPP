@@ -5,18 +5,18 @@
 
 # include <string>
 
-class Animal {
+class A_Animal {
 	public:
-		virtual	~Animal(void);
+		virtual	~A_Animal(void);
 
-		Animal&	operator=(const Animal& rhs);
+		A_Animal&	operator=(const A_Animal& rhs);
 
-		virtual void		makeSound(void) const;
+		virtual void		makeSound(void) const = 0;
 		const std::string&	getType(void) const;
 
 	protected:
-		Animal(void);
-		Animal(const Animal& rhs);
+		A_Animal(void);
+		A_Animal(const A_Animal& rhs);
 
 		std::string	_type;
 };
