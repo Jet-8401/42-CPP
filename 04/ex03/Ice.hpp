@@ -6,12 +6,13 @@
 # include "AMateria.hpp"
 
 class Ice : public AMateria {
+	protected:
+		Ice&	operator=(const Ice& rhs);
 	public:
 		Ice(void);
 		Ice(const Ice& rhs);
 		~Ice(void);
 
-		Ice&	operator=(const Ice& rhs);
 
 		AMateria*	clone(void) const;
 		void		use(ICharacter& target);

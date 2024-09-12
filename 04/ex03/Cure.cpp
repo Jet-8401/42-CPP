@@ -12,7 +12,7 @@ Cure::Cure(void): AMateria("cure")
 
 Cure::Cure(const Cure& rhs): AMateria(rhs)
 {
-	*this = rhs;
+	return ;
 }
 
 Cure::~Cure(void)
@@ -26,6 +26,7 @@ Cure::~Cure(void)
 Cure&	Cure::operator=(const Cure& rhs)
 {
 	AMateria::operator=(rhs);
+
 	return (*this);
 }
 
@@ -34,7 +35,8 @@ Cure&	Cure::operator=(const Cure& rhs)
 
 AMateria*	Cure::clone(void) const
 {
-	AMateria*	cloned = new Cure(*this);
+	AMateria*	cloned = new Cure();
+
 	return (cloned);
 }
 

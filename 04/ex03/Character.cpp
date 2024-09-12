@@ -1,3 +1,5 @@
+#include <cstring>
+#include <iostream>
 #include "Character.hpp"
 #include "AMateria.hpp"
 #include "ICharacter.hpp"
@@ -5,29 +7,34 @@
 // Constructors / Destructors
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-#include <iostream>
-
 Character::Character(void)
 {
-	// test purposes
-	for(int i = 0; i < INVENTORY_SLOTS; i++)
-		std::cout << this->_inv[i] << std::endl;
+	memset(this->_inv, 0, sizeof(this->_inv));
+
 	return ;
 }
 
 Character::Character(const Character& rhs)
 {
+	memset(this->_inv, 0, sizeof(this->_inv));
 	*this = rhs;
 	return ;
 }
 
 Character::Character(const std::string& name): _name(name)
 {
+	memset(this->_inv, 0, sizeof(this->_inv));
+
 	return ;
 }
 
 Character::~Character(void)
 {
+	for (int slot = 0; slot < INVENTORY_SLOTS; slot++)
+	{
+		delete this->_inv[slot];
+		this->_inv[slot] = NULL;
+	}
 	return ;
 }
 
@@ -36,18 +43,33 @@ Character::~Character(void)
 
 Character&	Character::operator=(const Character& rhs)
 {
-
+	this->_name = rhs.getName();
+	for (int slot = 0; slot < INVENTORY_SLOTS; slot++)
+	{
+		if (this->_inv[slot])
+			delete this->_inv[slot];
+		if (rhs._inv[slot])
+			this->_inv[slot] = rhs._inv[slot]->clone();
+	}
+	return (*this);
 }
 
 // Function memeber
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-AMateria*	Character::_findEmptySlot(void)
+AMateria**	Character::_findEmptySlot(void)
 {
 	for (int slot = 0; slot < INVENTORY_SLOTS; slot++)
 		if (!this->_inv[slot])
-			return (this->_inv[slot]);
+			return (&this->_inv[slot]);
 	return (NULL);
+}
+
+AMateria*	Character::getInvSlot(int idx)
+{
+	if (idx >= INVENTORY_SLOTS || idx < 0)
+		return (NULL);
+	return (this->_inv[idx]);
 }
 
 const std::string&	Character::getName(void) const
@@ -57,8 +79,12 @@ const std::string&	Character::getName(void) const
 
 void	Character::equip(AMateria* materia)
 {
-	AMateria*	empy_slot = this->_findEmptySlot();
-	empy_slot = materia;
+	AMateria**	tmp;
+
+	tmp = this->_findEmptySlot();
+	if (!materia || !tmp)
+		return ;
+	*tmp = materia;
 	return ;
 }
 
@@ -70,12 +96,17 @@ void	Character::unequip(int idx)
 	return ;
 }
 
-void	Character::use(int idx, ICharacter& target) const
+void	Character::use(int idx, ICharacter& target)
 {
-	const AMateria*	materia;
+	AMateria*	materia;
+
 	materia = this->getInvSlot(idx);
 	if (!materia)
+	{
+		std::cout << this->_name << " cannot use materia[" << idx << "] on "
+			<< target.getName() << std::endl;
 		return ;
+	}
 	materia->use(target);
 	return ;
 }

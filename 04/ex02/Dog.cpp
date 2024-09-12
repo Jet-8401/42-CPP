@@ -34,6 +34,7 @@ Dog::~Dog(void)
 Dog&	Dog::operator=(const Dog& rhs)
 {
 	this->_type = rhs._type;
+	*this->_brain = *rhs._brain;
 
 	std::cout << "Animal assignment operator called" << std::endl;
 	return (*this);

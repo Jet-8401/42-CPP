@@ -10,7 +10,7 @@ class Character : public ICharacter {
 	protected:
 		Character(void);
 
-		AMateria*	_findEmptySlot(void);
+		AMateria**	_findEmptySlot(void);
 
 		std::string	_name;
 		AMateria*	_inv[INVENTORY_SLOTS];
@@ -22,11 +22,11 @@ class Character : public ICharacter {
 
 		Character&	operator=(const Character& rhs);
 
-		const AMateria*		getInvSlot(int idx) const;
+		AMateria*			getInvSlot(int idx);
 		const std::string&	getName(void) const;
 		void				equip(AMateria* m);
 		void				unequip(int idx);
-		void				use(int idx, ICharacter& target) const;
+		void				use(int idx, ICharacter& target);
 };
 
 #endif

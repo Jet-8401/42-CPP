@@ -10,21 +10,19 @@ class ICharacter;
 
 class AMateria {
 	protected:
-		AMateria(void);
-		AMateria(const AMateria& rhs);
+		const std::string	_type;
 
 		// unused for now
 		AMateria&	operator=(const AMateria& rhs);
-
-		static const std::string	_type;
-
 	public:
+		AMateria(void);
+		AMateria(const AMateria& rhs);
+		AMateria(const std::string& type);
 		virtual ~AMateria(void);
-		AMateria(std::string const & type);
 
 		const std::string& getType(void) const;
 		virtual AMateria* clone(void) const = 0;
-		virtual void use(ICharacter& target) const;
+		virtual void use(ICharacter& target);
 
 };
 

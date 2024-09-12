@@ -12,7 +12,7 @@ Ice::Ice(void): AMateria("ice")
 
 Ice::Ice(const Ice& rhs): AMateria(rhs)
 {
-	*this = rhs;
+	return ;
 }
 
 Ice::~Ice(void)
@@ -26,6 +26,7 @@ Ice::~Ice(void)
 Ice&	Ice::operator=(const Ice& rhs)
 {
 	AMateria::operator=(rhs);
+
 	return (*this);
 }
 
@@ -34,7 +35,8 @@ Ice&	Ice::operator=(const Ice& rhs)
 
 AMateria*	Ice::clone(void) const
 {
-	AMateria*	cloned = new Ice(*this);
+	AMateria*	cloned = new Ice();
+
 	return (cloned);
 }
 

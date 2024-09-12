@@ -1,4 +1,3 @@
-#include <iostream>
 #include "AMateria.hpp"
 #include "ICharacter.hpp"
 
@@ -10,9 +9,14 @@ AMateria::AMateria(void)
 	return ;
 }
 
-AMateria::AMateria(const AMateria& rhs)
+AMateria::AMateria(const AMateria& rhs): _type(rhs._type)
 {
-	*this = rhs;
+	return ;
+}
+
+AMateria::AMateria(const std::string& type): _type(type)
+{
+	return ;
 }
 
 AMateria::~AMateria(void)
@@ -35,4 +39,10 @@ AMateria&	AMateria::operator=(const AMateria& rhs)
 const std::string&	AMateria::getType(void) const
 {
 	return (this->_type);
+}
+
+void	AMateria::use(ICharacter& target)
+{
+	(void) target;
+	return ;
 }

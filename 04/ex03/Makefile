@@ -4,7 +4,7 @@ SRC			=	main.cpp AMateria.cpp Character.cpp Cure.cpp Ice.cpp \
 OBJS		= $(SRC:.cpp=.o)
 
 CXX			= c++
-CPPFLAGS	= -Wall -Wextra -Werror -std=c++98
+CPPFLAGS	= -Wall -Wextra -Werror -std=c++98 -g
 
 all: $(NAME)
 
