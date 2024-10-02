@@ -33,6 +33,7 @@ class Bureaucrat {
 		Bureaucrat&			incrementGrade(void);
 		Bureaucrat&			decrementGrade(void);
 		void				signForm(AForm& form);
+		void				executeForm(const AForm& form);
 
 		static void	checkGrade(const unsigned int& grade);
 

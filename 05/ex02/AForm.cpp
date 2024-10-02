@@ -1,17 +1,22 @@
 #include "Bureaucrat.hpp"
-#include "Form.hpp"
+#include "AForm.hpp"
 
 // Exceptions
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
 const char*	AForm::GradeTooHighException::what() const throw()
 {
-	return (EXCEPT_FORM_GRADE_TOO_HIGH);
+	return ("Form grade too high");
 }
 
 const char*	AForm::GradeTooLowException::what() const throw()
 {
-	return (EXCEPT_FORM_GRADE_TOO_LOW);
+	return ("Form grade too low");
+}
+
+const char*	AForm::FormNotSignedException::what() const throw()
+{
+	return ("Form is not signed");
 }
 
 // Consctructors / Desctructors
@@ -100,4 +105,12 @@ void	AForm::beSigned(Bureaucrat& bureaucrat)
 	else
 		throw AForm::GradeTooLowException();
 	return ;
+}
+
+void	AForm::checkExecution(const Bureaucrat& executor) const
+{
+	if (!this->getSigned())
+		throw AForm::FormNotSignedException();
+	if (executor.getGrade() > this->getExecuteGrade())
+		throw AForm::GradeTooLowException();
 }

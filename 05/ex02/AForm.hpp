@@ -8,9 +8,6 @@ class Bureaucrat;
 # include <string>
 # include <exception>
 
-# define EXCEPT_FORM_GRADE_TOO_LOW "Form grade is too low"
-# define EXCEPT_FORM_GRADE_TOO_HIGH "Form grade is to high"
-
 class AForm {
 	private:
 		AForm(void);
@@ -20,9 +17,13 @@ class AForm {
 		const unsigned int	_sign_grade_required;
 		const unsigned int	_execute_grade_required;
 
+	protected:
+		void	checkExecution(const Bureaucrat& execuor) const;
+
 	public:
 		class	GradeTooHighException;
 		class	GradeTooLowException;
+		class	FormNotSignedException;
 
 		AForm(AForm& source);
 		AForm(std::string name, const unsigned int sign_grade_required,
@@ -36,9 +37,14 @@ class AForm {
 		const unsigned int&	getSignGrade(void) const;
 		const unsigned int& getExecuteGrade(void) const;
 		void				beSigned(Bureaucrat& bureaucrat);
+		virtual void		execute(const Bureaucrat& executor) const = 0;
 };
 
 class AForm::GradeTooHighException : public std::exception {
+	const char* what() const throw();
+};
+
+class AForm::FormNotSignedException : public std::exception {
 	const char* what() const throw();
 };
 

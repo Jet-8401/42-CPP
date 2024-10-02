@@ -1,33 +1,38 @@
 #include <iostream>
 #include <exception>
 #include "Bureaucrat.hpp"
+#include "PresidentialPardonForm.hpp"
+#include "RobotomyRequestForm.hpp"
+#include "ShrubberyCreationForm.hpp"
 
 int	main(void)
 {
 	try {
-		Bureaucrat	John("John", 149);
-		Form	someStuff("42b", 100, 150);
+		Bureaucrat	John("John", 150);
 
-		std::cout << someStuff << std::endl;
+		ShrubberyCreationForm	bery("home");
+		John.signForm(bery);
+		John.executeForm(bery);
 
-		std::cout << John << std::endl;
-		John.decrementGrade();
-		for (int i = 0; i < 49; i++) {
-			std::cout << John << std::endl;
-			John.incrementGrade();
-		}
-		std::cout << John << std::endl;
+		RobotomyRequestForm	robotForm("bob");
+		John.signForm(robotForm);
+		robotForm.execute(John);
+		robotForm.execute(John);
+		robotForm.execute(John);
+		robotForm.execute(John);
+		robotForm.execute(John);
+		robotForm.execute(John);
 
-		John.signForm(someStuff);
-		std::cout << someStuff << std::endl;
-		John.incrementGrade();
+		PresidentialPardonForm	form("45f");
+		John.signForm(form);
 		std::cout << John << std::endl;
-		John.signForm(someStuff);
-		std::cout << someStuff << std::endl;
+		std::cout << form << std::endl;
+
+		form.execute(John);
 	}
 	catch(std::exception& e)
 	{
-		std::cout << e.what() << std::endl;
+		std::cout << "Exception caught: " << e.what() << std::endl;
 		return (1);
 	}
 	return (0);
