@@ -4,11 +4,11 @@
 #include "Bureaucrat.hpp"
 
 RobotomyRequestForm::RobotomyRequestForm(void):
-	AForm("RobotomyRequestForm", 72, 45)
+	AForm(ROBOTOMY_FORM_NAME, 72, 45)
 {}
 
-RobotomyRequestForm::RobotomyRequestForm(std::string target):
-	AForm("RobotomyRequestForm", 72, 45), _target(target)
+RobotomyRequestForm::RobotomyRequestForm(const std::string& target):
+	AForm(ROBOTOMY_FORM_NAME, 72, 45), _target(target)
 {}
 
 RobotomyRequestForm::~RobotomyRequestForm(void)

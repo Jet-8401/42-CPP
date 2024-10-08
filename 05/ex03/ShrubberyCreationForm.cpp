@@ -10,11 +10,11 @@ const char*	ShrubberyCreationForm::CannotCreateFileException::what(void) const
 }
 
 ShrubberyCreationForm::ShrubberyCreationForm(void):
-	AForm("ShrubberyCreationForm", 145, 137)
+	AForm(SHRUBERRY_FORM_NAME, 145, 137)
 {}
 
-ShrubberyCreationForm::ShrubberyCreationForm(std::string target):
-	AForm("ShrubberyCreationForm", 145, 137), _target(target)
+ShrubberyCreationForm::ShrubberyCreationForm(const std::string& target):
+	AForm(SHRUBERRY_FORM_NAME, 145, 137), _target(target)
 {}
 
 ShrubberyCreationForm::~ShrubberyCreationForm(void)

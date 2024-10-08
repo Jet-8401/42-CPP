@@ -1,7 +1,9 @@
 #ifndef SHRUBERRYCREATIONFORM_HPP
 # define SHRUBERRYCREATIONFORM_HPP
 
-#include "AForm.hpp"
+# include "AForm.hpp"
+
+# define SHRUBERRY_FORM_NAME "shrubbery"
 
 class ShrubberyCreationForm : public AForm {
 	private:
@@ -13,7 +15,7 @@ class ShrubberyCreationForm : public AForm {
 	public:
 		class CannotCreateFileException;
 
-		ShrubberyCreationForm(std::string target);
+		ShrubberyCreationForm(const std::string& target);
 		ShrubberyCreationForm(ShrubberyCreationForm& form);
 		~ShrubberyCreationForm(void);
 

@@ -1,7 +1,9 @@
 #ifndef ROBOTOMYREQUESTFORM_HPP
 # define ROBOTOMYREQUESTFORM_HPP
 
-#include "AForm.hpp"
+# include "AForm.hpp"
+
+# define ROBOTOMY_FORM_NAME "robotomy request"
 
 class RobotomyRequestForm : public AForm {
 	private:
@@ -11,7 +13,7 @@ class RobotomyRequestForm : public AForm {
 		std::string	_target;
 
 	public:
-		RobotomyRequestForm(std::string target);
+		RobotomyRequestForm(const std::string& target);
 		RobotomyRequestForm(RobotomyRequestForm& form);
 		~RobotomyRequestForm(void);
 

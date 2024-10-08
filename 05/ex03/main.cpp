@@ -1,6 +1,7 @@
 #include <iostream>
 #include <exception>
 #include "Bureaucrat.hpp"
+#include "Intern.hpp"
 #include "PresidentialPardonForm.hpp"
 #include "RobotomyRequestForm.hpp"
 #include "ShrubberyCreationForm.hpp"
@@ -8,27 +9,21 @@
 int	main(void)
 {
 	try {
-		Bureaucrat	John("John", 150);
+		Bureaucrat	John("John", 28);
+		Intern	someRandomIntern;
+		AForm*	rrf;
 
-		ShrubberyCreationForm	bery("home");
-		John.signForm(bery);
-		John.executeForm(bery);
-
-		RobotomyRequestForm	robotForm("bob");
-		John.signForm(robotForm);
-		robotForm.execute(John);
-		robotForm.execute(John);
-		robotForm.execute(John);
-		robotForm.execute(John);
-		robotForm.execute(John);
-		robotForm.execute(John);
-
-		PresidentialPardonForm	form("45f");
-		John.signForm(form);
-		std::cout << John << std::endl;
-		std::cout << form << std::endl;
-
-		form.execute(John);
+		rrf = someRandomIntern.makeForm("robotomy request", "Bender");
+		if (!rrf)
+		{
+			std::cout << "rrf is NULL" << std::endl;
+			return (0);
+		}
+		std::cout << *rrf << std::endl;
+		//rrf->execute(John);
+		rrf->beSigned(John);
+		rrf->execute(John);
+		std::cout << *rrf << std::endl;
 	}
 	catch(std::exception& e)
 	{

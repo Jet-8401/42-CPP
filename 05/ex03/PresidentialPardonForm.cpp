@@ -3,11 +3,11 @@
 #include "Bureaucrat.hpp"
 
 PresidentialPardonForm::PresidentialPardonForm(void):
-	AForm("PresidentialPardonForm", 25, 5)
+	AForm(PRESIDENTIAL_FORM_NAME, 25, 5)
 {}
 
-PresidentialPardonForm::PresidentialPardonForm(std::string target):
-	AForm("PresidentialPardonForm", 25, 5), _target(target)
+PresidentialPardonForm::PresidentialPardonForm(const std::string& target):
+	AForm(PRESIDENTIAL_FORM_NAME, 25, 5), _target(target)
 {}
 
 PresidentialPardonForm::~PresidentialPardonForm(void)
