@@ -1,4 +1,4 @@
-NAME		= templates
+NAME		= iter
 SRC			= main.cpp
 OBJS		= $(SRC:.cpp=.o)
 
