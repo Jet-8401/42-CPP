@@ -1,18 +1,20 @@
 #ifndef SPAN_HPP
 # define SPAN_HPP
 
-#include <exception>
+# include <algorithm>
+# include <exception>
+# include <vector>
+
 typedef unsigned int uint;
 
 class Span {
 	private:
 		Span(void);
 
-		uint	_checkSpan(void (*f)(long*, long*)) const;
+		uint	_checkSpan(void (*f)(int*, int*)) const;
 
-		uint*	_intern;
-		uint	_length;
-		uint	_current_index;
+		std::vector<int>*			_internal_vector;
+		uint						_initialized_elements;
 
 	public:
 		class NotEnoughNumbersException : public std::exception {
@@ -29,11 +31,18 @@ class Span {
 
 		Span&	operator=(const Span& rhs);
 
-		void	addNumber(uint n);
+		template <typename Iterator>
+		void	addNUmber(Iterator begin, Iterator end);
+		void	addNumber(const int value);
 		uint	shortestSpan(void) const;
 		uint	longestSpan(void) const;
 };
 
-
+template <typename Iterator>
+void	Span::addNUmber(Iterator first, Iterator last)
+{
+	// Todo
+	return ;
+}
 
 #endif

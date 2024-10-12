@@ -14,22 +14,22 @@ const char*	Span::LimitReachException::what(void) const throw()
 // Constructors / Destructors
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-Span::Span(const Span& src): _intern(NULL)
+Span::Span(const Span& src)
 {
+	this->_internal_vector = new std::vector<int>(src._internal_vector->size(), 0);
 	*this = src;
 	return ;
 }
 
-Span::Span(const uint N): _length(N), _current_index(0)
+Span::Span(const uint N): _initialized_elements(0)
 {
-	this->_intern = new uint[this->_length];
-	memset(this->_intern, 0, this->_length * sizeof(uint));
+	this->_internal_vector = new std::vector<int>(N, 0);
 	return ;
 }
 
 Span::~Span(void)
 {
-	delete [] this->_intern;
+	delete this->_internal_vector;
 	return ;
 }
 
@@ -38,50 +38,49 @@ Span::~Span(void)
 
 Span&	Span::operator=(const Span& rhs)
 {
-	this->_length = rhs._length;
-	this->_current_index = rhs._current_index;
-	delete [] this->_intern;
-	this->_intern = new uint[this->_length];
-	memcpy(this->_intern, rhs._intern, this->_length * sizeof(uint));
+	// the lign below can maybe cause some leaks: have to check execution
+	*(this->_internal_vector) = *(rhs._internal_vector);
+	this->_initialized_elements = rhs._initialized_elements;
 	return (*this);
 }
 
 // Function members
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-void	Span::addNumber(const uint N)
+uint	Span::_checkSpan(void (*f)(int* current_distance, int* prev_distance)) const
 {
-	if (this->_current_index >= this->_length)
+	std::vector<int>::const_iterator	it;
+	int	prev_distance = 0;
+	int	current_distance = 0;
+
+	if (this->_initialized_elements <= 1)
+		throw Span::NotEnoughNumbersException();
+	for (it = ++(this->_internal_vector->begin()); it != this->_internal_vector->end(); it++)
+	{
+		current_distance = *it - *(it - 1);
+		f(&current_distance, &prev_distance);
+	}
+	return (prev_distance);
+}
+
+void	Span::addNumber(const int value)
+{
+	if (this->_initialized_elements >= this->_internal_vector->size())
 		throw Span::LimitReachException();
-	this->_intern[this->_current_index++] = N;
+	(*this->_internal_vector)[this->_initialized_elements++] = value;
 	return ;
 }
 
-uint	Span::_checkSpan(void (*f)(long* current_distance, long* distance)) const
-{
-	long	distance = 0;
-	long	current_distance = 0;
-
-	if (this->_current_index <= 1)
-		throw Span::NotEnoughNumbersException();
-	for (uint i = 1; i < this->_length; i++)
-	{
-		current_distance = static_cast<long>(this->_intern[i]) - this->_intern[i - 1];
-		f(&current_distance, &distance);
-	}
-	return (distance);
+static void	checkLongest(int *current_distance, int* prev_distance) {
+	if (*current_distance > *prev_distance)
+		*prev_distance = *current_distance;
 }
 
-static void	checkLongest(long *current_distance, long* distance) {
-	if (*current_distance > *distance)
-		*distance = *current_distance;
-}
-
-static void	checkShortest(long *current_distance, long* distance) {
-	if (*current_distance < *distance)
-		*distance = *current_distance;
-	if (*distance < 0)
-		*distance = -*distance;
+static void	checkShortest(int *current_distance, int* prev_distance) {
+	if (*current_distance < *prev_distance)
+		*prev_distance = *current_distance;
+	if (*prev_distance < 0)
+		*prev_distance = -*prev_distance;
 }
 
 uint	Span::longestSpan(void) const
