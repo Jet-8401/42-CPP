@@ -1,5 +1,7 @@
 #include "Span.hpp"
 #include <cstring>
+#include <limits>
+//#include <iostream>
 
 const char*	Span::NotEnoughNumbersException::what(void) const throw()
 {
@@ -47,20 +49,20 @@ Span&	Span::operator=(const Span& rhs)
 // Function members
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-uint	Span::_checkSpan(void (*f)(int* current_distance, int* prev_distance)) const
+int	Span::_checkSpan(int min_base_value, void (*f)(int* current_distance, int* min_distance)) const
 {
 	std::vector<int>::const_iterator	it;
-	int	prev_distance = 0;
+	int	min_distance = min_base_value;
 	int	current_distance = 0;
 
 	if (this->_initialized_elements <= 1)
 		throw Span::NotEnoughNumbersException();
 	for (it = ++(this->_internal_vector->begin()); it != this->_internal_vector->end(); it++)
 	{
-		current_distance = *it - *(it - 1);
-		f(&current_distance, &prev_distance);
+		current_distance = std::abs(*it - *(it - 1));
+		f(&current_distance, &min_distance);
 	}
-	return (prev_distance);
+	return (min_distance);
 }
 
 void	Span::addNumber(const int value)
@@ -71,24 +73,32 @@ void	Span::addNumber(const int value)
 	return ;
 }
 
-static void	checkLongest(int *current_distance, int* prev_distance) {
-	if (*current_distance > *prev_distance)
-		*prev_distance = *current_distance;
+static void	checkLongest(int *current_distance, int* min_distance) {
+	if (*current_distance > *min_distance)
+		*min_distance = *current_distance;
 }
 
-static void	checkShortest(int *current_distance, int* prev_distance) {
-	if (*current_distance < *prev_distance)
-		*prev_distance = *current_distance;
-	if (*prev_distance < 0)
-		*prev_distance = -*prev_distance;
+static void	checkShortest(int *current_distance, int* min_distance) {
+	if (*current_distance < *min_distance)
+		*min_distance = *current_distance;
 }
 
-uint	Span::longestSpan(void) const
+int	Span::longestSpan(void) const
 {
-	return (this->_checkSpan(checkLongest));
+	return (this->_checkSpan(std::numeric_limits<int>::min(), checkLongest));
 }
 
-uint	Span::shortestSpan(void) const
+int	Span::shortestSpan(void) const
 {
-	return (this->_checkSpan(checkShortest));
+	return (this->_checkSpan(std::numeric_limits<int>::max(), checkShortest));
 }
+
+/*
+void	Span::printInternalBuffer(void) const
+{
+	std::vector<int>::const_iterator print_iterator;
+	for (print_iterator = this->_internal_vector->begin(); print_iterator != this->_internal_vector->end(); print_iterator++)
+		std::cout << *print_iterator << ' ';
+	std::cout << std::endl;
+}
+*/

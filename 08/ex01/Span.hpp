@@ -11,7 +11,7 @@ class Span {
 	private:
 		Span(void);
 
-		uint	_checkSpan(void (*f)(int*, int*)) const;
+		int	_checkSpan(int min_base_value, void (*f)(int*, int*)) const;
 
 		std::vector<int>*			_internal_vector;
 		uint						_initialized_elements;
@@ -32,16 +32,24 @@ class Span {
 		Span&	operator=(const Span& rhs);
 
 		template <typename Iterator>
-		void	addNUmber(Iterator begin, Iterator end);
+		void	addNumber(Iterator begin, Iterator end);
 		void	addNumber(const int value);
-		uint	shortestSpan(void) const;
-		uint	longestSpan(void) const;
+		int	shortestSpan(void) const;
+		int	longestSpan(void) const;
+
+		//void	printInternalBuffer(void) const; // for debug
 };
 
-template <typename Iterator>
-void	Span::addNUmber(Iterator first, Iterator last)
+template <typename InputIterator>
+void	Span::addNumber(InputIterator first, InputIterator last)
 {
-	// Todo
+	long distance = std::distance(first, last);
+	if (distance < 0)
+		return ;
+	if (static_cast<unsigned long>(distance) > this->_internal_vector->size() - this->_initialized_elements)
+		throw Span::LimitReachException();
+	std::copy(first, last, this->_internal_vector->begin() + this->_initialized_elements);
+	this->_initialized_elements += distance;
 	return ;
 }
 

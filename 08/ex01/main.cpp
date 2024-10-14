@@ -1,6 +1,6 @@
 #include "Span.hpp"
+#include <cstdlib>
 #include <iostream>
-#include <list>
 
 int	main(void)
 {
@@ -32,15 +32,50 @@ int	main(void)
 	}
 
 	{
-		Span			sp(10);
-		std::vector<int>	list;
+		Span sp(10);
+		std::vector<int> array;
 		std::vector<int>::iterator it;
 
 		for (int i = 0; i < 10; i++)
-			list.push_back(i);
-		it = list.begin();
-		std::advance(it, 2);
-		sp.addNUmber(list.begin(), list.end());
+			array.push_back(i);
+		it = array.begin();
+		sp.addNumber(45);
+		sp.addNumber(it, array.end() - 1);
+		//sp.printInternalBuffer();
 	}
+
+	{
+		Span sp(50000);
+		std::vector<int> array;
+		std::vector<int>::iterator it;
+
+		unsigned int seed;
+		for (int i = 0; i < 50000; i++)
+		{
+			seed = time(NULL) * i;
+			srand(seed);
+			array.push_back(rand() % 100000);
+		}
+
+		sp.addNumber(array.begin(), array.end());
+		//sp.printInternalBuffer();
+
+		std::cout << sp.shortestSpan() << std::endl;
+		std::cout << sp.longestSpan() << std::endl;
+	}
+
+	{
+		Span sp(5);
+
+		sp.addNumber(1);
+		sp.addNumber(4);
+		sp.addNumber(-10000);
+		sp.addNumber(2);
+		sp.addNumber(10000);
+
+		std::cout << "-- -- -- -- -- -- -- --" << std::endl;
+		std::cout << sp.shortestSpan() << std::endl;
+		std::cout << sp.longestSpan() << std::endl;
+		}
 	return 0;
 }
