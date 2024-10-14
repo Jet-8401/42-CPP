@@ -1,0 +1,19 @@
+ex00: The goal of the exercice is to stock and read a data-base in wich
+for each date there is an exchange rate, wich format is "date,value".
+For the input file, the format is the same but with "date | value" where
+the value is a number between 0 and 1000 and can be a float. For each
+line of the input we have to check the date into the db and take the least
+closest date compared to the date from the input, then take the value of the
+db and multiply it by the value of the input line.
+Container preffered: Map
+
+ex01: The goal is to take a string as input that match a reverse polish notation
+format. The notation using the principle of stacks, each time a figure
+is encountered it is pushed into the stack but when its an operator we use
+it on the last two numbers inside the stack, if there is not at least two numbers
+or at the end of the program there is numbers left over, this cause a syntax error.
+The only operator that are handled are (+, -, *, /), and the only figures are
+taken in considerations for input, anything else are discarded/disallowed.
+Container preffered: stack, list
+
+ex02:
