@@ -1,7 +1,7 @@
 #ifndef BUREAUCRAT_HPP
 # define BUREAUCRAT_HPP
 
-class AForm;
+class Form;
 
 # include "Form.hpp"
 # include <exception>
@@ -32,7 +32,7 @@ class Bureaucrat {
 		const unsigned int&	getGrade(void) const;
 		Bureaucrat&			incrementGrade(void);
 		Bureaucrat&			decrementGrade(void);
-		void				signForm(AForm& form);
+		void				signForm(Form& form);
 
 		static void	checkGrade(const unsigned int& grade);
 

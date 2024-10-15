@@ -6,7 +6,7 @@ int	main(void)
 {
 	try {
 		Bureaucrat	John("John", 149);
-		AForm	someStuff("42b", 100, 150);
+		Form	someStuff("42b", 100, 150);
 
 		std::cout << someStuff << std::endl;
 

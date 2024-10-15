@@ -11,9 +11,9 @@ class Bureaucrat;
 # define EXCEPT_FORM_GRADE_TOO_LOW "Form grade is too low"
 # define EXCEPT_FORM_GRADE_TOO_HIGH "Form grade is to high"
 
-class AForm {
+class Form {
 	private:
-		AForm(void);
+		Form(void);
 
 		bool				_is_signed;
 		const std::string	_name;
@@ -24,12 +24,12 @@ class AForm {
 		class	GradeTooHighException;
 		class	GradeTooLowException;
 
-		AForm(AForm& source);
-		AForm(std::string name, const unsigned int sign_grade_required,
+		Form(Form& source);
+		Form(std::string name, const unsigned int sign_grade_required,
 			const unsigned int execute_grade_required);
-		~AForm(void);
+		~Form(void);
 
-		AForm&	operator=(AForm& rhs);
+		Form&	operator=(Form& rhs);
 
 		const bool&			getSigned(void) const;
 		const std::string&	getName(void) const;
@@ -38,14 +38,14 @@ class AForm {
 		void				beSigned(Bureaucrat& bureaucrat);
 };
 
-class AForm::GradeTooHighException : public std::exception {
+class Form::GradeTooHighException : public std::exception {
 	const char* what() const throw();
 };
 
-class AForm::GradeTooLowException : public std::exception {
+class Form::GradeTooLowException : public std::exception {
 	const char* what() const throw();
 };
 
-std::ostream&	operator<<(std::ostream& out, const AForm& rhs);
+std::ostream&	operator<<(std::ostream& out, const Form& rhs);
 
 #endif
