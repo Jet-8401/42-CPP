@@ -1,71 +1,50 @@
 #include "BitcoinExchange.hpp"
-#include <ctime>
-#include <cstdlib>
-#include <string>
-#include <sys/types.h>
-#include <time.h>
-#include <utility>
+#include <cstdio>
+#include <fstream>
 #include <iostream>
 
 // Constructors / Destructors
-// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-BitCoinExchange::BitCoinExchange(void): _db_pos(this->_internal_db.begin())
+BitcoinExchange::BitcoinExchange(void)
 {}
 
-BitCoinExchange::~BitCoinExchange(void)
+BitcoinExchange::BitcoinExchange(const char *db_file_name)
+{
+	this->loadDB(db_file_name);
+	return ;
+}
+
+BitcoinExchange::BitcoinExchange(const BitcoinExchange& src): _internal_container(src._internal_container)
 {}
+
+BitcoinExchange::~BitcoinExchange(void)
+{}
+
+// Operator overloads
+// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+
+BitcoinExchange&	BitcoinExchange::operator=(const BitcoinExchange& rhs)
+{
+	this->_internal_container = rhs._internal_container;
+	return (*this);
+}
 
 // Function members
-// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-bool	BitCoinExchange::_parseFile(std::ifstream& stream, void (BitCoinExchange::*f)(time_t key, double value), char c)
+void	BitcoinExchange::_error(const char* message) const
 {
-	std::string	date, value;
-	struct tm	timestamp;
-	time_t		date_integer;
-	double		value_integer;
-	uint		line_number = 0;
-
-	while (true)
-	{
-		line_number++;
-		std::getline(stream, date, c);
-		std::getline(stream, value);
-
-		if (stream.eof())
-			return (true);
-
-		// checking for failure
-		strptime(date.c_str(), "%Y-%m-%d", &timestamp);
-		date_integer = mktime(&timestamp);
-		value_integer = std::atof(value.c_str());
-		(this->*f)(date_integer, value_integer);
-	}
-	return (true);
-}
-
-void	BitCoinExchange::_map(time_t key, double value)
-{
-	this->_internal_db.insert(std::make_pair(key, value));
-	std::cout << "key: " << key << "\tvalue: " << value << std::endl;
+	std::cerr << "BitcoinEchange Error> ";
+	perror(message);
 	return ;
 }
 
-void	BitCoinExchange::_compare(time_t key, double value)
+bool	BitcoinExchange::loadDB(const char *db_file_name)
 {
-	std::cout << "key: " << key << "\tvalue: " << value << std::endl;
-	return ;
-}
+	std::ifstream	db(db_file_name, std::ifstream::in);
 
-bool	BitCoinExchange::registerDB(std::ifstream& stream)
-{
-	return this->_parseFile(stream, &BitCoinExchange::_map, ',');
-}
+	if (db.fail() || db.bad())
+		return (this->_error(db_file_name), 0);
 
-void	BitCoinExchange::comparePriceExchange(std::ifstream& stream)
-{
-	std::cout << "appelle compare" << std::endl;
-	this->_parseFile(stream, &BitCoinExchange::_compare, '|');
-	return ;
 }
