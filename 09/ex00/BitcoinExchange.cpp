@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 
 // Constructors / Destructors
@@ -13,16 +14,6 @@
 
 BitcoinExchange::BitcoinExchange(void)
 {}
-
-BitcoinExchange::BitcoinExchange(const char *db_file_name)
-{
-	std::ifstream	db;
-
-	if (db.fail() || db.bad())
-		this->_error(db_file_name);
-	this->parseFile(',', db, &BitcoinExchange::insertMap);
-	return ;
-}
 
 BitcoinExchange::BitcoinExchange(const BitcoinExchange& src): _internal_container(src._internal_container)
 {}
@@ -42,14 +33,13 @@ BitcoinExchange&	BitcoinExchange::operator=(const BitcoinExchange& rhs)
 // Function members
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-void	BitcoinExchange::_error(const char* message) const
+void	BitcoinExchange::_badInput(const char* reason, const char* line) const
 {
-	std::cerr << "BitcoinEchange Error> ";
-	perror(message);
+	std::cerr << "Error bad input: " << reason << " => " << line << std::endl;
 	return ;
 }
 
-bool	parseLine(const std::string& line, char c, time_t& date, float& value)
+bool	parseLine(const std::string& line, char& c, time_t& date, float& value)
 {
 	struct tm			raw_time;
 	std::string			str;
@@ -72,7 +62,8 @@ bool	parseLine(const std::string& line, char c, time_t& date, float& value)
 	return (true);
 }
 
-bool	BitcoinExchange::parseFile(char c, std::ifstream& stream, void (BitcoinExchange::*f)(time_t, float))
+bool	BitcoinExchange::parseFile(char c, std::ifstream& stream,
+	bool (BitcoinExchange::*f)(std::string&, time_t&, float&))
 {
 	std::string			line;
 	time_t				date;
@@ -80,10 +71,11 @@ bool	BitcoinExchange::parseFile(char c, std::ifstream& stream, void (BitcoinExch
 	bool				return_val;
 
 	return_val = true;
+	std::getline(stream, line); // skip the first line
 	while (!stream.eof() && std::getline(stream, line))
 	{
 		if (parseLine(line, c, date, value)) {
-			(this->*f)(date, value);
+			(this->*f)(line, date, value);
 			continue ;
 		}
 		return_val = false;
@@ -92,26 +84,40 @@ bool	BitcoinExchange::parseFile(char c, std::ifstream& stream, void (BitcoinExch
 	return (return_val);
 }
 
-void	BitcoinExchange::insertMap(time_t date, float value)
+bool	BitcoinExchange::insertMap(std::string& line, time_t& date, float& value)
 {
+	(void) line;
 	this->_internal_container.insert(std::pair<time_t, float>(date, value));
-	std::cout << "date: " << date << "\tvalue: " << value << std::endl;
+	return (1);
 }
 
-void	BitcoinExchange::compareDB(time_t date, float value)
+bool	BitcoinExchange::compareDB(std::string& line, time_t& date, float& value)
 {
-	float	x;
+	float	rate;
 
-	if (value < 0 || value > 1000)
-	{
-		std::cout << "Error bad input: value not between 0 and 1000" << std::endl;
-		return ;
-	}
+	if (value < 0)
+		return (this->_badInput("not positive number", line.c_str()), 0);
+	if (value > 1000)
+		return (this->_badInput("number too high", line.c_str()), 0);
+	rate = this->rateAt(date);
+	std::cout << "value: " << value * rate << std::endl;
+	return (1);
+}
+
+float	BitcoinExchange::rateAt(time_t& time) const
+{
+	float						value;
+	_cont_type::const_iterator	it;
+
 	try {
-		x = this->_internal_container.at(date);
-	} catch (std::exception& e) {
-		std::cout << "date not found: " << date << std::endl;
-		return ;
+		value = this->_internal_container.at(time);
+	} catch (const std::out_of_range& oor) {
+		it = this->_internal_container.begin();
+		while (it != this->_internal_container.end() && it->first < time)
+			it++;
+		if (it != this->_internal_container.begin())
+			it--;
+		value = it->second;
 	}
-	std::cout << "date found: " << date << " => " << x * value << std::endl;
+	return (value);
 }
