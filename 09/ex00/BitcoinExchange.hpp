@@ -2,13 +2,14 @@
 # define BITCOINEXCHANGE_HPP
 
 # include <ctime>
+#include <fstream>
 # include <map>
 
 class BitcoinExchange {
 	private:
 		void	_error(const char* message) const;
 
-		std::map<time_t, double>	_internal_container;
+		std::map<time_t, float>	_internal_container;
 
 	public:
 		BitcoinExchange(void);
@@ -18,7 +19,9 @@ class BitcoinExchange {
 
 		BitcoinExchange&	operator=(const BitcoinExchange& rhs);
 
-		bool	loadDB(const char *db_file_name);
+		void	insertMap(time_t date, float value);
+		void	compareDB(time_t date, float value);
+		bool	parseFile(char c, std::ifstream& stream, void (BitcoinExchange::*f)(time_t, float));
 };
 
 #endif
