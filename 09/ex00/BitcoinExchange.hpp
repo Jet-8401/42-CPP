@@ -2,7 +2,7 @@
 # define BITCOINEXCHANGE_HPP
 
 # include <ctime>
-#include <fstream>
+# include <fstream>
 # include <map>
 
 class BitcoinExchange {

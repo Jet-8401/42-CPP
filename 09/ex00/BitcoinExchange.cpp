@@ -86,24 +86,34 @@ bool	BitcoinExchange::parseFile(char c, std::ifstream& stream,
 
 bool	BitcoinExchange::insertMap(std::string& line, time_t& date, float& value)
 {
-	(void) line;
-	this->_internal_container.insert(std::pair<time_t, float>(date, value));
-	return (1);
+	try {
+		this->_internal_container.at(date);
+	} catch (const std::out_of_range& oor) {
+		this->_internal_container.insert(std::pair<time_t, float>(date, value));
+		return (1);
+	}
+	this->_badInput("duplicated value", line.c_str());
+	return (0);
 }
 
 bool	BitcoinExchange::compareDB(std::string& line, time_t& date, float& value)
 {
-	float	rate;
+	float		rate;
+	struct tm	*time;
+	char		str_time[100];
 
 	if (value < 0)
 		return (this->_badInput("not positive number", line.c_str()), 0);
 	if (value > 1000)
 		return (this->_badInput("number too high", line.c_str()), 0);
 	rate = this->rateAt(date);
-	std::cout << "value: " << value * rate << std::endl;
+	time = localtime(&date);
+	strftime(str_time, 100, "%Y-%m-%d", time);
+	std::cout << str_time << " => " << value << " = " << value * rate << std::endl;
 	return (1);
 }
 
+// take the closest rate in the data-base from the given time
 float	BitcoinExchange::rateAt(time_t& time) const
 {
 	float						value;
