@@ -2,7 +2,6 @@
 #include <cstring>
 #include <iostream>
 #include <limits>
-#include <list>
 #include <sstream>
 #include <vector>
 // note: map and stack are not allowed !
@@ -42,8 +41,18 @@ int	main(int argc, char* argv[])
 		std::cout << *it << ' ';
 	std::cout << std::endl;
 
-	p_list	list(parsed_numbers.begin(), parsed_numbers.end());
-	pmerge_list(list);
+	p_list	list;
+	for (std::vector<unsigned int>::iterator it = parsed_numbers.begin(); it != parsed_numbers.end(); it++) {
+		t_int_link temp;
+
+		temp.value = *it;
+		list.push_back(temp);
+	}
+
+	for (p_list::iterator it = list.begin(); it != list.end(); it++) {
+		std::cout << it->value << " => " << &(*it) << std::endl;
+	}
+	pmergeList(list);
 
 	return (0);
 }
