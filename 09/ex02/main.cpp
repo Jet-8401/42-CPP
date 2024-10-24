@@ -1,10 +1,10 @@
 #include "PmergeMe.hpp"
+#include <algorithm>
 #include <cstring>
 #include <iostream>
 #include <limits>
 #include <sstream>
 #include <vector>
-// note: map and stack are not allowed !
 
 #define ERR_USAGE "usage: ./PmergeMe <number1> <number2> number3..."
 #define ERR_NUMBER_FORMAT "Error: Unexpected input: only unsigned numbers are expected => "
@@ -27,6 +27,11 @@ int	parse_args(int argc, char* argv[], std::vector<unsigned int>& container)
 	return (0);
 }
 
+bool	compare(t_int_link& first, t_int_link& last)
+{
+	return (first.value < last.value);
+}
+
 int	main(int argc, char* argv[])
 {
 	std::vector<unsigned int>	parsed_numbers;
@@ -36,10 +41,10 @@ int	main(int argc, char* argv[])
 	if (parse_args(argc, argv, parsed_numbers) == -1)
 		return (0);
 
-	std::cout << "Unsorted sequence: ";
+	/*std::cout << "Unsorted sequence: ";
 	for (std::vector<unsigned int>::iterator it = parsed_numbers.begin(); it != parsed_numbers.end(); it++)
 		std::cout << *it << ' ';
-	std::cout << std::endl;
+	std::cout << std::endl;*/
 
 	p_list	list;
 	for (std::vector<unsigned int>::iterator it = parsed_numbers.begin(); it != parsed_numbers.end(); it++) {
@@ -49,10 +54,13 @@ int	main(int argc, char* argv[])
 		list.push_back(temp);
 	}
 
-	for (p_list::iterator it = list.begin(); it != list.end(); it++) {
+	/*for (p_list::iterator it = list.begin(); it != list.end(); it++) {
 		std::cout << it->value << " => " << &(*it) << std::endl;
-	}
+	}*/
 	pmergeList(list);
+	printList(list);
+
+	std::cout << "is sorted ? " << (std::is_sorted(list.begin(), list.end(), compare) ? "yes": "no") << std::endl;
 
 	return (0);
 }

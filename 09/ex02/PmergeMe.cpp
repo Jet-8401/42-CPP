@@ -1,4 +1,7 @@
 #include "PmergeMe.hpp"
+#include <algorithm>
+#include <cstdio>
+#include <cstdlib>
 #include <iostream>
 #include <iterator>
 
@@ -47,10 +50,17 @@ static void switchNodes(p_list& list, p_list::iterator it1, p_list::iterator it2
     list.splice(it1, list, it2);
 }
 
-static void binaryInsertion(p_list& source, p_list::iterator& to_add)
+static void	insert(p_list::iterator& element, p_list& to)
 {
-	(void) source;
-	(void) to_add;
+	p_list::iterator	it = to.begin();
+
+	while (it != to.end()) {
+		if (element->value < it->value) {
+			to.insert(it, *element);
+			return ;
+		}
+		it++;
+	}
 }
 
 // Ford-Johnson Merge-insertion sort using lists.
@@ -70,20 +80,22 @@ int	pmergeList(p_list& list)
 	// put the pair's smaller number into an other list, winners are left into the list.
 	spliceList(list, low_n);
 
-	std::cout << "-- -- -- unsorted -- -- --" << std::endl;
-	std::cout << "Winners: "; printList(list);
-	std::cout << "Loosers: "; printList(low_n);
+	//std::cout << "-- -- -- unsorted -- -- --" << std::endl;
+	//std::cout << "Winners: "; printList(list);
+	//std::cout << "Loosers: "; printList(low_n);
 
 	// continue the recursion on the winner list
 	pmergeList(list);
 
 	// sort using binary insertion
-	for (p_list::iterator it = low_n.begin(); it != low_n.end(); it++)
-		binaryInsertion(list, it);
+	for (p_list::iterator it = low_n.begin(); it != low_n.end(); it++) {
+		//std::cout << "inserting: " << it->value << std::endl;
+		insert(it, list);
+	}
 
-	std::cout << "--- --- --- sorted --- --- ---" << std::endl;
-	printList(list);
-	printList(low_n);
+	//std::cout << "--- --- --- sorted --- --- ---" << std::endl;
+	//printList(list);
+	//printList(low_n);
 
 	return (0);
 }
