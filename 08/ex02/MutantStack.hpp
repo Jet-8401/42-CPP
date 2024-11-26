@@ -11,8 +11,6 @@ class MutantStack : public std::stack<T> {
 	public:
 		MutantStack<T, Container>(void): std::stack<T, Container>()
 		{}
-		// create a constructor that can instentiate through the provided
-		// underlying container as std::list::list does
 
 		MutantStack<T, Container>(const MutantStack<T, Container>& src): std::stack<T, Container>()
 		{
@@ -31,7 +29,13 @@ class MutantStack : public std::stack<T> {
 			return (*this);
 		}
 
-		typedef typename std::stack<T, Container>::iterator iterator;
+		typedef typename Container::iterator iterator;
+		typedef typename Container::const_iterator const_iterator;
+
+		iterator begin() { return this->c.begin(); }
+    	iterator end() { return this->c.end(); }
+    	const_iterator begin() const { return this->c.begin(); }
+    	const_iterator end() const { return this->c.end(); }
 };
 
 }

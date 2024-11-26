@@ -10,7 +10,10 @@ int	main(void)
 		container.push_back(i);
 
 	std::list<int>::iterator	result = ::easyfind(container, 192);
-	std::cout << *result << std::endl;
+	if (result == container.end())
+		std::cout << "was not found into the container" << std::endl;
+	else
+		std::cout << *result << std::endl;
 
 	std::vector<int> vecContainer;
 	for (int i = 0; i < 200; i++)

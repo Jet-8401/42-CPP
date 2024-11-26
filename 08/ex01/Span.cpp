@@ -51,16 +51,19 @@ Span&	Span::operator=(const Span& rhs)
 
 int	Span::_checkSpan(int min_base_value, void (*f)(int* current_distance, int* min_distance)) const
 {
-	std::vector<int>::const_iterator	it;
+	std::vector<int>::const_iterator	ita;
+	std::vector<int>::const_iterator	itb;
 	int	min_distance = min_base_value;
 	int	current_distance = 0;
 
 	if (this->_initialized_elements <= 1)
 		throw Span::NotEnoughNumbersException();
-	for (it = ++(this->_internal_vector->begin()); it != this->_internal_vector->end(); it++)
-	{
-		current_distance = std::abs(*it - *(it - 1));
-		f(&current_distance, &min_distance);
+
+	for (ita = this->_internal_vector->begin(); ita != this->_internal_vector->end(); ita++) {
+		for (itb = (ita + 1); itb != this->_internal_vector->end(); itb++) {
+			current_distance = std::abs(*ita - *itb);
+			f(&current_distance, &min_distance);
+		}
 	}
 	return (min_distance);
 }
