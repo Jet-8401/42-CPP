@@ -3,7 +3,6 @@
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
-#include <iterator>
 
 void printList(const p_list& list) {
     for (p_list::const_iterator it = list.begin(); it != list.end(); ++it) {
@@ -64,7 +63,6 @@ static void	insert(p_list::iterator& element, p_list& to)
 }
 
 // Ford-Johnson Merge-insertion sort using lists.
-// This function recursivly sort the array of winners by re-using this function onto itself.
 int	pmergeList(p_list& list)
 {
 	p_list	low_n;
@@ -100,20 +98,42 @@ int	pmergeList(p_list& list)
 	return (0);
 }
 
-/*
-94 82 100
-29 80 62
+p_vector	pmergeVector(p_vector& array)
+{
+	p_vector	winners;
+	p_vector	loosers;
+	bool		odd = array.size() % 2;
 
-Winners: 94 100
-Loosers: 82
+	// Creating pairs
+	winners.reserve(array.size());
+	loosers.reserve(array.size() / 2);
+	for (p_vector::const_iterator it = array.begin(); it != (array.end() - odd); it += 2) {
+		if (*it > *(it + 1)) {
+			winners.push_back(*it);
+			loosers.push_back(*(it + 1));
+		} else {
+			winners.push_back(*(it + 1));
+			loosers.push_back(*it);
+		}
+	}
 
-setp 1: inserting the unpaired elements
+	if (odd)
+		winners.push_back(array.back());
 
-82 94 100
+	// Recursivly sort the winners
+	if (winners.size() > 1)
+		winners = pmergeVector(winners);
 
-step 2: inserting the smaller ones, end make the array ending on the last linked number as it is bigger.
+	// Insert the loosers into the sorted winners
+	for (p_vector::const_iterator it = loosers.begin(); it != loosers.end(); it++) {
+		winners.insert(std::lower_bound(winners.begin(), winners.end(), *it), *it);
+	}
 
-80 is linked with 82, so we have to do binary insertion with 82 as the iterator of ending, doing that for every
-other elements into the small numbers.
+	// std::cout << "Winners vector:" << std::endl;
+	// for (p_vector::const_iterator it = winners.begin(); it != winners.end(); ++it) {
+	// 	std::cout << *it << " ";
+	// }
+	// std::cout << std::endl;
 
-*/
+	return (winners);
+}
