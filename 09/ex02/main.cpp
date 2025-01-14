@@ -1,9 +1,13 @@
 #include "PmergeMe.hpp"
+#include <bits/types/struct_timeval.h>
+#include <cstdint>
 #include <cstring>
 #include <iostream>
 #include <iterator>
 #include <limits>
 #include <sstream>
+#include <stdint.h>
+#include <sys/time.h>
 
 #define ERR_USAGE "usage: ./PmergeMe <number1> <number2> number3..."
 #define ERR_NUMBER_FORMAT "Error: Unexpected input: only unsigned numbers are expected => "
@@ -40,7 +44,14 @@ bool	compare(t_int_link& first, t_int_link& last)
 
 void print_vector(p_vector& vector, unsigned int max_elements)
 {
-	for (p_vector::const_iterator it = vector.begin(); it != vector.begin() + max_elements; it++)
+	p_vector::const_iterator	end;
+
+	if (vector.size() >= max_elements)
+		end = vector.begin() + max_elements;
+	else
+		end = vector.begin() + vector.size();
+
+	for (p_vector::const_iterator it = vector.begin(); it != end; it++)
 		std::cout << *it << ' ';
 	std::cout << "[...]" << std::endl;
 }
@@ -49,28 +60,35 @@ void	print_list(p_list& list, unsigned int max_elements)
 {
 	p_list::const_iterator	end = list.begin();
 
-	std::advance(end, max_elements);
+	std::advance(end, list.size() >= max_elements ? max_elements : list.size());
 	for (p_list::const_iterator it = list.begin(); it != end; it++)
 		std::cout << it->value << ' ';
 	std::cout << "[...]" << std::endl;
 }
 
-static void	print_infos(p_list& list, p_vector& vector)
+uint64_t getTimeMilliSeconds(void)
 {
+	struct timeval	tv;
+	gettimeofday(&tv, 0);
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+}
+
+void	print_infos(p_list& list, p_vector& vector)
+{
+	uint64_t	a1, a2;
+
 	std::cout << "Time to process a range of " << list.size() << " elements with std::list : ";
-	clock_t start = clock();
+	a1 = getTimeMilliSeconds();
 	pmergeList(list);
-	clock_t end = clock();
-	double time_taken = double(end - start) / CLOCKS_PER_SEC * 1000;
-	std::cout << time_taken << " ms" << std::endl;
+	a2 = getTimeMilliSeconds();
+	std::cout << a2 - a1 << " ms" << std::endl;
 	print_list(list, MAX_ELEMENTS);
 
 	std::cout << "Time to process a range of " << vector.size() << " elements with std::vector : ";
-	start = clock();
+	a1 = getTimeMilliSeconds();
 	vector = pmergeVector(vector);
-	end = clock();
-	time_taken = double(end - start) / CLOCKS_PER_SEC * 1000;
-	std::cout << time_taken << " ms" << std::endl;
+	a2 = getTimeMilliSeconds();
+	std::cout << a2 - a1 << " ms" << std::endl;
 	print_vector(vector, MAX_ELEMENTS);
 }
 
